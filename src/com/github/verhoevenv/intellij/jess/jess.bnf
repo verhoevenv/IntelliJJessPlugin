@@ -87,7 +87,8 @@ factdbname ::= jesssymbol
 fact ::= LP factname factslot* RP
 factslot ::= LP slotname literal RP
 
-classconstruct ::= LP DEFCLASS jesssymbol+ RP
+classconstruct ::= LP DEFCLASS templatename javaclass RP
+javaclass ::= jesssymbol
 
 functionconstruct ::= LP DEFFUNCTION functionname functionargumentlist resolvable* RP
 functionargumentlist ::= LP variable* RP
