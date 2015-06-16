@@ -2,7 +2,7 @@
   <id>com.github.verhoevenv.intellij.jess</id>
   <name>Jess Language</name>
   <version>0.1</version>
-  <vendor email="verhoevenv@github.com" url="http://verhoevenv.github.com">Vincent Verhoeven</vendor>
+  <vendor email="verhoevenv@github.com" url="http://verhoevenv.github.com/IntelliJJessPlugin">Vincent Verhoeven</vendor>
 
   <description><![CDATA[
       Plugin for <a href="http://www.jessrules.com/jess/">Jess</a> development
