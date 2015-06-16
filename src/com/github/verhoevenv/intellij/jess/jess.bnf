@@ -53,14 +53,14 @@ rulename ::= modulequalification? nonqualifiedrulename
 ruledeclarationlist ::= LP DECLARE ruledeclaration+ RP
 ruledeclaration ::= LP (jesssymbol|literal)+ RP
 
-ruleconditional ::= rulefactassignment | ruleconditionelement
-rulefactassignment ::= variable ASSIGN ruleconditionelement
+private ruleconditional ::= rulefactassignment | ruleconditionlist
+rulefactassignment ::= variable ASSIGN ruleconditionlist
 
-ruleconditionelement ::= LP extendedsymbolicparenmatched+ RP
-extendedsymbolicparenmatched ::= (ruleconditionelement|multiplesymbols|newstylematching)
-multiplesymbols ::= extendedsymbolic+
-extendedsymbolic ::= (SYMBOL|AMP|COLON|PIPE|TILDE|EXCLAMATION|literal|resolvable)
-newstylematching ::= LS multiplesymbols RS
+ruleconditionlist ::= LP conditionhead conditionargument* RP
+conditionhead ::= jesssymbol
+private conditionargument ::= (ruleconditionlist|extendedsymbolic|newstylematching)
+private extendedsymbolic ::= (SYMBOL|AMP|COLON|PIPE|TILDE|EXCLAMATION|literal|resolvable)
+newstylematching ::= LS extendedsymbolic+ RS
 
 rulebody ::= ruleaction*
 ruleaction ::= resolvable
