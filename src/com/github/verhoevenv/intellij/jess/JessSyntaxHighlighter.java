@@ -58,6 +58,7 @@ public class JessSyntaxHighlighter extends SyntaxHighlighterBase {
         keys1.put(JessTypes.DEFRULE, JESS_CONSTRUCT);
         keys1.put(JessTypes.DEFFACTS, JESS_CONSTRUCT);
         keys1.put(JessTypes.DEFTEMPLATE, JESS_CONSTRUCT);
+        keys1.put(JessTypes.DEFFUNCTION, JESS_CONSTRUCT);
 
         keys1.put(JessTypes.SLOT, JESS_KEYWORD);
 

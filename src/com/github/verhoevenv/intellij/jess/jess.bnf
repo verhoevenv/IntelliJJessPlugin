@@ -27,6 +27,7 @@
     DEFTEMPLATE = "deftemplate"
     DEFFACTS = "deffacts"
     DEFCLASS = "defclass"
+    DEFFUNCTION = "deffunction"
     IMPORT = "import"
     SLOT = "slot"
     DECLARE = "declare"
@@ -39,7 +40,7 @@
 }
 
 jessFile ::= form*
-form ::= (rule|construct|function|COMMENT)
+form ::= (rule|construct|resolvable|COMMENT)
 rule ::= LP DEFRULE rulehead ARROW rulebody RP
 
 rulehead ::= rulename ruleconditional*
@@ -52,7 +53,7 @@ valuetest ::= extendedsymbolicparenmatched*
 
 extendedsymbolicparenmatched ::= ((LP extendedsymbolicparenmatched RP)|multiplesymbols)
 multiplesymbols ::= extendedsymbolic+
-extendedsymbolic ::= (SYMBOL|AMP|COLON|PIPE|literal|function)
+extendedsymbolic ::= (SYMBOL|AMP|COLON|PIPE|literal|resolvable)
 /*
 valuetest ::= (nonrecursivevaluetest|andconstraint|orconstraint)
 nonrecursivevaluetest ::= (literal|variable|predicateconstraint)
@@ -62,12 +63,9 @@ orconstraint ::= nonrecursivevaluetest PIPE valuetest
 */
 
 rulebody ::= ruleaction*
-ruleaction ::= function
-function ::= LP functionname functionargument* RP
-functionname ::= jesssymbol
-functionargument ::= (literal|variable|function)
+ruleaction ::= resolvable
 
-construct ::= (moduleconstruct|templateconstruct|factsconstruct|classconstruct)
+construct ::= (moduleconstruct|templateconstruct|factsconstruct|classconstruct|functionconstruct)
 
 moduleconstruct ::= LP DEFMODULE jesssymbol+ RP
 
@@ -85,14 +83,22 @@ factslot ::= LP slotname literal RP
 
 classconstruct ::= LP DEFCLASS jesssymbol+ RP
 
+functionconstruct ::= LP DEFFUNCTION functionname functionargumentlist resolvable* RP
+functionargumentlist ::= LP variable* RP
+
 modulequalification ::= modulename moduleseperator
 modulename ::= jesssymbol
 nonqualifiedrulename ::= jesssymbol
 
 booleanliteral ::= (TRUE | FALSE)
-literal ::= STRING_LITERAL | booleanliteral | NUMBER_LITERAL
+literal ::= STRING_LITERAL | booleanliteral | NUMBER_LITERAL | NIL
 variable ::= jesssymbol
 factname ::= jesssymbol
 
 private jesssymbol ::= SYMBOL
 moduleseperator ::= COLON COLON
+resolvable ::= functioncall | methodcall | (LP resolvable RP)
+methodcall ::= LP resolvable functionargument* RP
+functioncall ::= LP functionname functionargument* RP
+functionname ::= jesssymbol
+functionargument ::= (literal|variable|resolvable)
