@@ -22,38 +22,44 @@
     NIL = "nil"
     LP = "("
     RP = ")"
+    LS = "{"
+    RS = "}"
     DEFRULE = "defrule"
     DEFMODULE = "defmodule"
     DEFTEMPLATE = "deftemplate"
     DEFFACTS = "deffacts"
     DEFCLASS = "defclass"
     DEFFUNCTION = "deffunction"
-    IMPORT = "import"
     SLOT = "slot"
     DECLARE = "declare"
     ARROW = "=>"
     AMP = "&"
     PIPE = "|"
     COLON = ":"
+    TILDE = "~"
+    ASSIGN = "<-"
   ]
 
 }
 
 jessFile ::= form*
 form ::= (rule|construct|resolvable|COMMENT)
+
 rule ::= LP DEFRULE rulehead ARROW rulebody RP
 
-rulehead ::= rulename ruleconditional*
+rulehead ::= rulename ruledeclarationlist? ruleconditional*
 rulename ::= modulequalification? nonqualifiedrulename
-ruleconditional ::= rulepattern
-rulepattern ::= LP factname ruleslot* RP
-ruleslot ::= LP slotname valuetest RP
+ruledeclarationlist ::= LP DECLARE ruledeclaration+ RP
+ruledeclaration ::= LP (jesssymbol|literal)+ RP
 
-valuetest ::= extendedsymbolicparenmatched*
+ruleconditional ::= rulefactassignment | ruleconditionelement
+rulefactassignment ::= variable ASSIGN ruleconditionelement
 
-extendedsymbolicparenmatched ::= ((LP extendedsymbolicparenmatched RP)|multiplesymbols)
+ruleconditionelement ::= LP extendedsymbolicparenmatched+ RP
+extendedsymbolicparenmatched ::= (ruleconditionelement|multiplesymbols|newstylematching)
 multiplesymbols ::= extendedsymbolic+
-extendedsymbolic ::= (SYMBOL|AMP|COLON|PIPE|literal|resolvable)
+extendedsymbolic ::= (SYMBOL|AMP|COLON|PIPE|TILDE|literal|resolvable)
+newstylematching ::= LS multiplesymbols RS
 /*
 valuetest ::= (nonrecursivevaluetest|andconstraint|orconstraint)
 nonrecursivevaluetest ::= (literal|variable|predicateconstraint)
@@ -72,7 +78,7 @@ moduleconstruct ::= LP DEFMODULE jesssymbol+ RP
 templateconstruct ::= LP DEFTEMPLATE templatename templatedeclarelist? templateslot* RP
 templatename ::= modulequalification? factname
 templatedeclarelist ::= LP DECLARE templatedeclaration* RP
-templatedeclaration ::= LP (jesssymbol|booleanliteral)+ RP
+templatedeclaration ::= LP (jesssymbol|literal)+ RP
 templateslot ::= LP SLOT slotname RP
 slotname ::= jesssymbol
 
