@@ -37,6 +37,7 @@
     PIPE = "|"
     COLON = ":"
     TILDE = "~"
+    EXCLAMATION = "!"
     ASSIGN = "<-"
   ]
 
@@ -58,15 +59,8 @@ rulefactassignment ::= variable ASSIGN ruleconditionelement
 ruleconditionelement ::= LP extendedsymbolicparenmatched+ RP
 extendedsymbolicparenmatched ::= (ruleconditionelement|multiplesymbols|newstylematching)
 multiplesymbols ::= extendedsymbolic+
-extendedsymbolic ::= (SYMBOL|AMP|COLON|PIPE|TILDE|literal|resolvable)
+extendedsymbolic ::= (SYMBOL|AMP|COLON|PIPE|TILDE|EXCLAMATION|literal|resolvable)
 newstylematching ::= LS multiplesymbols RS
-/*
-valuetest ::= (nonrecursivevaluetest|andconstraint|orconstraint)
-nonrecursivevaluetest ::= (literal|variable|predicateconstraint)
-predicateconstraint ::= COLON function
-andconstraint ::= nonrecursivevaluetest AMP valuetest
-orconstraint ::= nonrecursivevaluetest PIPE valuetest
-*/
 
 rulebody ::= ruleaction*
 ruleaction ::= resolvable
@@ -75,8 +69,8 @@ construct ::= (moduleconstruct|templateconstruct|factsconstruct|classconstruct|f
 
 moduleconstruct ::= LP DEFMODULE jesssymbol+ RP
 
-templateconstruct ::= LP DEFTEMPLATE templatename templatedeclarelist? templateslot* RP
-templatename ::= modulequalification? factname
+templateconstruct ::= LP DEFTEMPLATE factidentifier templatedeclarelist? templateslot* RP
+factidentifier ::= modulequalification? factname
 templatedeclarelist ::= LP DECLARE templatedeclaration* RP
 templatedeclaration ::= LP (jesssymbol|literal)+ RP
 templateslot ::= LP SLOT slotname RP
@@ -87,7 +81,7 @@ factdbname ::= jesssymbol
 fact ::= LP factname factslot* RP
 factslot ::= LP slotname literal RP
 
-classconstruct ::= LP DEFCLASS templatename javaclass RP
+classconstruct ::= LP DEFCLASS factidentifier javaclass RP
 javaclass ::= jesssymbol
 
 functionconstruct ::= LP DEFFUNCTION functionname functionargumentlist resolvable* RP
@@ -104,7 +98,9 @@ factname ::= jesssymbol
 
 private jesssymbol ::= SYMBOL
 moduleseperator ::= COLON COLON
-resolvable ::= functioncall | methodcall | (LP resolvable RP)
+
+resolvable ::= factdefinition | functioncall | methodcall | (LP resolvable RP)
+factdefinition ::= LP factidentifier functionargument* RP
 methodcall ::= LP resolvable functionargument* RP
 functioncall ::= LP functionname functionargument* RP
 functionname ::= jesssymbol
