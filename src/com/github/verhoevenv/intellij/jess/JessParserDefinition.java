@@ -1,6 +1,5 @@
 package com.github.verhoevenv.intellij.jess;
 
-import com.github.verhoevenv.intellij.jess.lexer.JessLexerAdapter;
 import com.github.verhoevenv.intellij.jess.parser.JessParser;
 import com.github.verhoevenv.intellij.jess.psi.JessFile;
 import com.github.verhoevenv.intellij.jess.psi.JessTypes;

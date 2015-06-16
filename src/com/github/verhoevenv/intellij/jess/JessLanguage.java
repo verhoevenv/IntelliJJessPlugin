@@ -8,6 +8,4 @@ public class JessLanguage extends Language {
     public JessLanguage() {
         super("Jess");
     }
-
-    //TODO: https://confluence.jetbrains.com/display/IntelliJIDEA/Language+and+File+Type
 }

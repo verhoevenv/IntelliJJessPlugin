@@ -12,6 +12,10 @@
     elementTypeClass="com.github.verhoevenv.intellij.jess.psi.JessElementType"
     tokenTypeClass="com.github.verhoevenv.intellij.jess.psi.JessTokenType"
 
+  tokens=[
+    COMMENT = "regexp:;[^\r\n]*"
+    SYMBOL = "regexp:[a-zA-Z0-9$*=+/<>_?#.-]*"
+    STRING_LITERAL = "regexp:(\"([^\"\\]|\\.)*\")"
     LP = "("
     RP = ")"
     DEFRULE = "defrule"
@@ -25,6 +29,8 @@
     AMP = "&"
     PIPE = "|"
     COLON = ":"
+  ]
+
 }
 
 jessFile ::= form*
@@ -32,10 +38,9 @@ form ::= (rule|construct|function|COMMENT)
 rule ::= LP DEFRULE rulehead ARROW rulebody RP
 
 rulehead ::= rulename ruleconditional*
-rulename ::= SYMBOL
+rulename ::= jesssymbol
 ruleconditional ::= rulepattern
-rulepattern ::= LP rulefactname ruleslot* RP
-rulefactname ::= SYMBOL
+rulepattern ::= LP factname ruleslot* RP
 ruleslot ::= LP slotname valuetest RP
 
 valuetest ::= extendedsymbolicparenmatched*
@@ -54,24 +59,27 @@ orconstraint ::= nonrecursivevaluetest PIPE valuetest
 rulebody ::= ruleaction*
 ruleaction ::= function
 function ::= LP functionname functionargument* RP
-functionname ::= SYMBOL
+functionname ::= jesssymbol
 functionargument ::= (literal|variable|function)
 
 construct ::= (moduleconstruct|templateconstruct|factsconstruct|classconstruct)
 
-moduleconstruct ::= LP DEFMODULE SYMBOL+ RP
+moduleconstruct ::= LP DEFMODULE jesssymbol+ RP
 
 templateconstruct ::= LP DEFTEMPLATE templatename templateslot* RP
-templatename ::= SYMBOL
+templatename ::= jesssymbol
 templateslot ::= LP SLOT slotname RP
-slotname ::= SYMBOL
+slotname ::= jesssymbol
 
 factsconstruct ::= LP DEFFACTS factdbname fact* RP
-factdbname ::= SYMBOL
-fact ::= LP SYMBOL factslot* RP
+factdbname ::= jesssymbol
+fact ::= LP factname factslot* RP
 factslot ::= LP slotname literal RP
 
-classconstruct ::= LP DEFCLASS SYMBOL+ RP
+classconstruct ::= LP DEFCLASS jesssymbol+ RP
 
 literal ::= STRING_LITERAL
-variable ::= SYMBOL
+variable ::= jesssymbol
+factname ::= jesssymbol
+
+private jesssymbol ::= SYMBOL

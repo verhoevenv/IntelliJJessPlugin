@@ -1,10 +1,10 @@
-package com.github.verhoevenv.intellij.jess.lexer;
+package com.github.verhoevenv.intellij.jess;
 
 import com.intellij.lexer.FlexAdapter;
 import com.intellij.lexer.FlexLexer;
 
 public class JessLexerAdapter extends FlexAdapter {
     public JessLexerAdapter() {
-        super(new JessLexer(null));
+        super(new _JessLexer(null));
     }
 }

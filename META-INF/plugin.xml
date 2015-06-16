@@ -25,6 +25,7 @@
   <extensions defaultExtensionNs="com.intellij">
     <fileTypeFactory implementation="com.github.verhoevenv.intellij.jess.JessFileTypeFactory"/>
     <lang.parserDefinition language="Jess" implementationClass="com.github.verhoevenv.intellij.jess.JessParserDefinition"/>
+    <lang.syntaxHighlighterFactory key="Jess" implementationClass="com.github.verhoevenv.intellij.jess.JessSyntaxHighlighterFactory"/>
   </extensions>
 
   <application-components>
