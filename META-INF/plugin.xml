@@ -26,6 +26,7 @@
     <fileTypeFactory implementation="com.github.verhoevenv.intellij.jess.JessFileTypeFactory"/>
     <lang.parserDefinition language="Jess" implementationClass="com.github.verhoevenv.intellij.jess.JessParserDefinition"/>
     <lang.syntaxHighlighterFactory key="Jess" implementationClass="com.github.verhoevenv.intellij.jess.JessSyntaxHighlighterFactory"/>
+    <annotator language="Jess" implementationClass="com.github.verhoevenv.intellij.jess.JessAnnotator" />
   </extensions>
 
   <application-components>
