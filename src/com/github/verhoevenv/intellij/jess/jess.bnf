@@ -14,8 +14,12 @@
 
   tokens=[
     COMMENT = "regexp:;[^\r\n]*"
-    SYMBOL = "regexp:[a-zA-Z0-9$*=+/<>_?#.-]*"
+    SYMBOL = "regexp:[a-zA-Z$*=+/<>_?#.-][a-zA-Z0-9$*=+/<>_?#.-]*"
     STRING_LITERAL = "regexp:(\"([^\"\\]|\\.)*\")"
+    NUMBER_LITERAL='regexp:\d+(\.\d*)?'
+    TRUE = "TRUE"
+    FALSE = "FALSE"
+    NIL = "nil"
     LP = "("
     RP = ")"
     DEFRULE = "defrule"
@@ -25,6 +29,7 @@
     DEFCLASS = "defclass"
     IMPORT = "import"
     SLOT = "slot"
+    DECLARE = "declare"
     ARROW = "=>"
     AMP = "&"
     PIPE = "|"
@@ -38,7 +43,7 @@ form ::= (rule|construct|function|COMMENT)
 rule ::= LP DEFRULE rulehead ARROW rulebody RP
 
 rulehead ::= rulename ruleconditional*
-rulename ::= jesssymbol
+rulename ::= modulequalification? nonqualifiedrulename
 ruleconditional ::= rulepattern
 rulepattern ::= LP factname ruleslot* RP
 ruleslot ::= LP slotname valuetest RP
@@ -66,8 +71,10 @@ construct ::= (moduleconstruct|templateconstruct|factsconstruct|classconstruct)
 
 moduleconstruct ::= LP DEFMODULE jesssymbol+ RP
 
-templateconstruct ::= LP DEFTEMPLATE templatename templateslot* RP
-templatename ::= jesssymbol
+templateconstruct ::= LP DEFTEMPLATE templatename templatedeclarelist? templateslot* RP
+templatename ::= modulequalification? factname
+templatedeclarelist ::= LP DECLARE templatedeclaration* RP
+templatedeclaration ::= LP (jesssymbol|booleanliteral)+ RP
 templateslot ::= LP SLOT slotname RP
 slotname ::= jesssymbol
 
@@ -78,8 +85,14 @@ factslot ::= LP slotname literal RP
 
 classconstruct ::= LP DEFCLASS jesssymbol+ RP
 
-literal ::= STRING_LITERAL
+modulequalification ::= modulename moduleseperator
+modulename ::= jesssymbol
+nonqualifiedrulename ::= jesssymbol
+
+booleanliteral ::= (TRUE | FALSE)
+literal ::= STRING_LITERAL | booleanliteral | NUMBER_LITERAL
 variable ::= jesssymbol
 factname ::= jesssymbol
 
 private jesssymbol ::= SYMBOL
+moduleseperator ::= COLON COLON

@@ -27,6 +27,11 @@ public class JessSyntaxHighlighter extends SyntaxHighlighterBase {
             DefaultLanguageHighlighterColors.STRING
     );
 
+    public static final TextAttributesKey JESS_NUMBER_LITERAL = TextAttributesKey.createTextAttributesKey(
+            "JESS.NUMBERLITERAL",
+            DefaultLanguageHighlighterColors.NUMBER
+    );
+
     public static final TextAttributesKey JESS_COMMENT = TextAttributesKey.createTextAttributesKey(
             "JESS.COMMENT",
             DefaultLanguageHighlighterColors.LINE_COMMENT
@@ -34,7 +39,12 @@ public class JessSyntaxHighlighter extends SyntaxHighlighterBase {
 
     public static final TextAttributesKey JESS_CONSTRUCT = TextAttributesKey.createTextAttributesKey(
             "JESS.CONSTRUCT",
-            DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL
+            DefaultLanguageHighlighterColors.KEYWORD
+    );
+
+    public static final TextAttributesKey JESS_KEYWORD = TextAttributesKey.createTextAttributesKey(
+            "JESS.KEYWORD",
+            DefaultLanguageHighlighterColors.KEYWORD
     );
 
 
@@ -49,7 +59,13 @@ public class JessSyntaxHighlighter extends SyntaxHighlighterBase {
         keys1.put(JessTypes.DEFFACTS, JESS_CONSTRUCT);
         keys1.put(JessTypes.DEFTEMPLATE, JESS_CONSTRUCT);
 
+        keys1.put(JessTypes.SLOT, JESS_KEYWORD);
+
         keys1.put(JessTypes.STRING_LITERAL, JESS_STRING_LITERAL);
+        keys1.put(JessTypes.NUMBER_LITERAL, JESS_NUMBER_LITERAL);
+        keys1.put(JessTypes.NIL, JESS_KEYWORD);
+        keys1.put(JessTypes.TRUE, JESS_KEYWORD);
+        keys1.put(JessTypes.FALSE, JESS_KEYWORD);
     }
 
     @NotNull
